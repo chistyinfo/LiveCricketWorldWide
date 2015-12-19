@@ -1,12 +1,12 @@
 package youtube.greendust.volleylistview;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -26,11 +26,15 @@ public class MainActivity extends AppCompatActivity {
 	private static final String TAG = MainActivity.class.getSimpleName();
 
 	// Movies json url
-	private static final String url = "http://api.androidhive.info/json/movies.json";
+	private static final String url = "http://www.padmafire.com/chistyinfo/json/movies.json";
+
 	private ProgressDialog pDialog;
 	private List<Movie> movieList = new ArrayList<Movie>();
 	private ListView listView;
 	private CustomListAdapter adapter;
+	String[] urlStrArray={"http://www.prothom-alo.com/",
+			"http://www.jugantor.com/mobile/"};
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,26 @@ public class MainActivity extends AppCompatActivity {
 		listView = (ListView) findViewById(R.id.list);
 		adapter = new CustomListAdapter(this, movieList);
 		listView.setAdapter(adapter);
+
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+										@Override
+										public void onItemClick(AdapterView<?> parent, View view,
+																int position, long id) {
+												Intent intent = new Intent(MainActivity.this, WebActivity.class);
+												intent.putExtra("url", urlStrArray[position]);
+												MainActivity.this.startActivity(intent);
+
+
+
+										}
+
+
+									}
+
+		);
+
+
 
 		pDialog = new ProgressDialog(this);
 		// Showing progress dialog before making http request
