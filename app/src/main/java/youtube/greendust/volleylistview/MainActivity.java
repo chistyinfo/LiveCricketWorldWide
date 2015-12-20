@@ -32,8 +32,7 @@ public class MainActivity extends AppCompatActivity {
 	private List<Movie> movieList = new ArrayList<Movie>();
 	private ListView listView;
 	private CustomListAdapter adapter;
-	String[] urlStrArray={"http://www.prothom-alo.com/",
-			"http://www.jugantor.com/mobile/"};
+	String[] urlStrArray;
 
 
 	@Override
@@ -83,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 						hidePDialog();
 
 						// Parsing json
+						urlStrArray = new String[response.length()];
+
 						for (int i = 0; i < response.length(); i++) {
 							try {
 
@@ -93,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
 								movie.setRating(((Number) obj.get("rating"))
 										.doubleValue());
 								movie.setYear(obj.getInt("releaseYear"));
+
+								urlStrArray[i] = obj.getString("url");
 
 								// Genre is json array
 								JSONArray genreArry = obj.getJSONArray("genre");
