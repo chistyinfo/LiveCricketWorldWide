@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 	private CustomListAdapter adapter;
 	String[] urlStrArray;
 
-
+//
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
