@@ -7,54 +7,100 @@
 
     <!-- Thumbnail Image -->
 
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/thumbnail"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="8dp" />
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cv"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#daeefc"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
 
 
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:backgroundTintMode="src_over"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f0f0f4"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
     <!-- Movie Title -->
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/thumbnail"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:textSize="@dimen/title"
-        android:textStyle="bold" />
 
-    <!-- Rating -->
-    <TextView
-        android:id="@+id/rating"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:textSize="@dimen/rating" />
-    
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                android:textSize="@dimen/title"
+                android:textColorHighlight="@color/colorPrimary"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/vs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/genre"
+                android:textSize="@dimen/genre"
+                android:layout_below="@+id/title"
+                android:layout_centerVertical="true"/>
+
+        <!-- Rating -->
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_below="@id/title"
+                android:layout_marginTop="3dp"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/rating" />
+
     <!-- Genre -->
-    <TextView
-        android:id="@+id/genre"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rating"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:textColor="@color/genre"
-        android:textSize="@dimen/genre" />
 
-    <!-- Release Year -->
-    <TextView
-        android:id="@+id/releaseYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/year"
-        android:textSize="@dimen/year" />
+        <!-- Release Year -->
+
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/year"
+                android:layout_gravity="center"
+                android:textSize="@dimen/year"
+                android:layout_centerVertical="true"
+                android:layout_below="@+id/rating" />
+
+
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>
