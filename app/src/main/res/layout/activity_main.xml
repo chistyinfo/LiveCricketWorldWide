@@ -5,18 +5,18 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
+    android:background="#9193da"
     android:layout_height="match_parent"
     tools:context="youtube.greendust.volleylistview.MainActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ic_launcher">
+            android:layout_height="match_parent">
 
 
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             ads:adSize="BANNER"
@@ -27,13 +27,43 @@
 
         <ListView
             android:id="@+id/list"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:divider="@color/list_divider"
             android:dividerHeight="1dp"
             android:listSelector="@drawable/list_row_selector"
-            android:layout_above="@+id/adView1"
-            android:layout_alignParentStart="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/linearLayout" />
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="30dp"
+              android:background="#a4aca8"
+              android:orientation="horizontal"
+              android:id="@+id/linearLayout">
+              <ImageView
+                  android:layout_width="80dp"
+                  android:layout_height="80dp"
+                  android:layout_marginTop="5dp"
+                  android:backgroundTintMode="screen"
+                  android:background="@drawable/ic_launcher"
+                  android:layout_alignParentTop="true"
+                  android:layout_centerHorizontal="true"
+                  android:id="@+id/imageView" />
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:textSize="16dp"
+                  android:textColor="#090909"
+                  android:text="লাইভ ক্রিকেট এ আপনাকে জানাই স্বাগত।\n প্রতিটি লাইভ সম্প্রচার মেসেজের মাধ্যমে জানিয়ে দেয়া হবে।"
+                  android:gravity="center"
+                  android:layout_below="@+id/imageView"
+                  android:layout_alignParentStart="true"
+                  android:id="@+id/textView" />
+
+          </LinearLayout>
 
 
 
