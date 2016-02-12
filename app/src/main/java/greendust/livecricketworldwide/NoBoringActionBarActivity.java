@@ -2,8 +2,10 @@ package greendust.livecricketworldwide;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
@@ -73,11 +75,9 @@ public class NoBoringActionBarActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mSmoothInterpolator = new AccelerateDecelerateInterpolator();
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
         mMinHeaderTranslation = -mHeaderHeight + getActionBarHeight();
-
         setContentView(R.layout.activity_noboringactionbar);
 
         mInterstitialAd = new InterstitialAd(this);
@@ -91,33 +91,13 @@ public class NoBoringActionBarActivity extends Activity {
                 finish();
 
 
-
             }
         });
 
         requestNewInterstitial();
 
 
-        listView = (ListView) findViewById(R.id.list);
-        adapter = new CustomListAdapter(this, movieList);
-        listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                                            @Override
-                                            public void onItemClick(AdapterView<?> parent, View view,
-                                                                    int position, long id) {
-                                                Intent intent = new Intent(NoBoringActionBarActivity.this, Youtube.class);
-                                                intent.putExtra("url", urlStrArray[position]);
-                                                NoBoringActionBarActivity.this.startActivity(intent);
-
-
-                                            }
-
-
-                                        }
-
-        );
 
 
         if (isNetworkAvailable()) {
@@ -230,6 +210,26 @@ public class NoBoringActionBarActivity extends Activity {
 //        }
         mPlaceHolderView = getLayoutInflater().inflate(R.layout.view_header_placeholder, listView, false);
         listView.addHeaderView(mPlaceHolderView);
+        listView = (ListView) findViewById(R.id.list);
+        adapter = new CustomListAdapter(this, movieList);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view,
+                                                                    int position, long id) {
+                                                Intent intent = new Intent(NoBoringActionBarActivity.this, Youtube.class);
+                                                intent.putExtra("url", urlStrArray[position]);
+                                                NoBoringActionBarActivity.this.startActivity(intent);
+
+
+                                            }
+
+
+                                        }
+
+        );
 //        mListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, FAKES));
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -338,5 +338,36 @@ public class NoBoringActionBarActivity extends Activity {
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    //Exit mode before showing instrialadd
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage("Do you want to Exit?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (isNetworkAvailable()) {
+
+                    //show interstitialad
+                    mInterstitialAd.isLoaded();
+                    mInterstitialAd.show();
+
+                }else{
+                    finish();
+                }
+
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //if user select "No", just cancel this dialog and continue with app
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
