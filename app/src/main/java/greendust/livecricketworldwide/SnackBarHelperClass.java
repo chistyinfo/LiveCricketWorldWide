@@ -13,7 +13,7 @@ public class SnackBarHelperClass {
 
     public static Snackbar snackBarWhiteMethod(FrameLayout frameLayout, String messages) {
         Snackbar snackbar = Snackbar
-                .make(frameLayout, messages, Snackbar.LENGTH_LONG);
+                .make(frameLayout, messages, Snackbar.LENGTH_INDEFINITE);
         // Changing action button text color
         View sbView = snackbar.getView();
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);

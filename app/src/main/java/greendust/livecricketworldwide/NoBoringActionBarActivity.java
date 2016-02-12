@@ -95,7 +95,7 @@ public class NoBoringActionBarActivity extends Activity {
         });
 
         requestNewInterstitial();
-
+        //ineshialise for snackbar
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.frmlayout);
         listView = (ListView) findViewById(R.id.list);
         mHeader = findViewById(R.id.header);
