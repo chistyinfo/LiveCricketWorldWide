@@ -60,7 +60,7 @@ public class NoBoringActionBarActivity extends Activity {
     private TypedValue mTypedValue = new TypedValue();
 
     // Movies json url
-    private static final String url = "http://www.padmafire.com/chistyinfo/json/movies.json";
+    private static final String url = "http://www.padmafire.com/chistyinfo/livefootball/movies.json";
     private FrameLayout frameLayout;
     private ProgressDialog pDialog;
     private List<Movie> movieList = new ArrayList<Movie>();
