@@ -3,8 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#fcfbfb"
+    android:layout_marginRight="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/login_trave2"
     tools:context="greendust.livecricketworldwide.Youtube.Youtube">
 
     <FrameLayout
@@ -23,37 +28,36 @@
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:textSize="20dp"
-                android:layout_weight="1"
-                android:elevation="5dp"
-                android:text="@string/fullscreen"/>
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/fullscreen"
-                android:elevation="5dp"
-                android:layout_weight="3"/>
 
-        </LinearLayout>
+    <greendust.livecricketworldwide.font.FontelloTextView
+        android:background="@drawable/login_travel_transparent_background"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textColor="#0b0a0b"
+        android:layout_gravity="center"
+        android:text="@string/speed"
+        android:clickable="true"
+        android:elevation="5dp"
+        />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:textSize="20dp"
-            android:layout_weight="1"
-            android:elevation="5dp"
-            android:text="@string/speed"/>
+
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-2523520660707375/5393757849">
+    </com.google.android.gms.ads.AdView>
+
+
 
 
 
