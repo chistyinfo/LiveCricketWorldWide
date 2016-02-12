@@ -1,9 +1,13 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">LiveCricket</string>
 
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
     <string name="title_activity_maps">Map</string>
+
+    <string name="noboringactionbar_title">Live Cricket</string>
+    <string name="speed">For better experience you have 1mbps or higher internet speed </string>
+    <string name="fullscreen">Press the right button for fullscreen mode</string>
 </resources>

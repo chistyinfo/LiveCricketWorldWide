@@ -2,8 +2,6 @@ package greendust.livecricketworldwide.Youtube;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -24,10 +22,9 @@ public class Youtube extends YouTubeBaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_youtube);
 
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
@@ -65,7 +62,7 @@ public class Youtube extends YouTubeBaseActivity implements
 
 
                 // For fullscreen
-                player.setFullscreen(true);
+//                player.setFullscreen(true);
 
 //                // Hiding player controls
 //                player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);

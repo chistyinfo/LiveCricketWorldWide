@@ -1,77 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/list_row_selector"
-    android:padding="8dp" >
+    android:padding="8dp">
 
-    <!-- Thumbnail Image -->
-
-    <android.support.v7.widget.CardView
+        <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+            android:elevation="15dp"
         android:id="@+id/cv"
         >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#daeefc"
-        android:orientation="horizontal">
-
-        <LinearLayout
+            <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:weightSum="3"
+            android:background="#daeefc"
+            android:orientation="horizontal">
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
             android:layout_weight="2">
 
-
-
-        <com.android.volley.toolbox.NetworkImageView
+            <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/thumbnail"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="match_parent"
             android:backgroundTintMode="src_over"
             android:layout_alignParentLeft="true"
-            android:layout_marginRight="8dp" />
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"/>
 
-        </LinearLayout>
+            </LinearLayout>
 
-        <LinearLayout
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#f0f0f4"
             android:layout_weight="1"
             android:orientation="vertical">
 
-    <!-- Movie Title -->
+            <!-- Movie Title -->
 
-            <TextView
+                <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_gravity="center"
+                android:textAlignment="center"
                 android:textSize="@dimen/title"
                 android:textColorHighlight="@color/colorPrimary"
                 android:textStyle="bold"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
 
-            <TextView
+                <TextView
                 android:id="@+id/vs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_gravity="center"
+                android:textAlignment="center"
                 android:textColor="@color/genre"
                 android:textSize="@dimen/genre"
                 android:layout_below="@+id/title"
                 android:layout_centerVertical="true"/>
 
-        <!-- Rating -->
-            <TextView
+                <!-- Rating -->
+                <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:layout_gravity="center"
                 android:layout_below="@id/title"
                 android:layout_marginTop="3dp"
@@ -88,19 +94,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/year"
+                android:textAlignment="center"
                 android:layout_gravity="center"
                 android:textSize="@dimen/year"
                 android:layout_centerVertical="true"
                 android:layout_below="@+id/rating" />
 
 
-
-
+        </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
-
     </android.support.v7.widget.CardView>
 
-</RelativeLayout>
+
+</LinearLayout>

@@ -7,4 +7,8 @@
     <dimen name="rating">13dip</dimen>
     <dimen name="genre">13dip</dimen>
     <dimen name="year">12dip</dimen>
+
+    <dimen name="header_height">250dp</dimen>
+    <dimen name="header_logo_size">50dp</dimen>
+    <dimen name="youtube_height">350dp</dimen>
 </resources>
