@@ -11,7 +11,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -140,7 +139,7 @@ public class NoBoringActionBarActivity extends Activity {
                     new Response.Listener<JSONArray>() {
                         @Override
                         public void onResponse(JSONArray response) {
-                            Log.d(TAG, response.toString());
+//                            Log.d(TAG, response.toString());
                             hidePDialog();
 
                             // Parsing json
@@ -192,7 +191,7 @@ public class NoBoringActionBarActivity extends Activity {
             // Adding request to request queue
             AppController.getInstance().addToRequestQueue(movieReq);
         } else {
-            SnackBarHelperClass.snackBarWhiteMethod(frameLayout, "No Internet Connection!").show();
+//            SnackBarHelperClass.snackBarWhiteMethod(frameLayout, "No Internet Connection!").show();
         }
     }
 
