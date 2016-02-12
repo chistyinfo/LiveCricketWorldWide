@@ -3,7 +3,11 @@ package greendust.livecricketworldwide;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.RectF;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -11,16 +15,26 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import greendust.livecricketworldwide.Youtube.Youtube;
 import greendust.livecricketworldwide.volley.CustomListAdapter;
 import greendust.livecricketworldwide.volley.Movie;
 
@@ -75,17 +89,123 @@ public class NoBoringActionBarActivity extends Activity {
         mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(mActionBarTitleColor);
 
         setupActionBar();
-        setupListView();
-    }
+//        setupListView();
+//    }
 
-    private void setupListView() {
-        ArrayList<String> FAKES = new ArrayList<String>();
-        for (int i = 0; i < 1000; i++) {
-            FAKES.add("entry " + i);
-        }
+//    private void setupListView() {
+//        ArrayList<String> FAKES = new ArrayList<String>();
+//        for (int i = 0; i < 1000; i++) {
+//            FAKES.add("entry " + i);
+//        }
         mPlaceHolderView = getLayoutInflater().inflate(R.layout.view_header_placeholder, listView, false);
         listView.addHeaderView(mPlaceHolderView);
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, FAKES));
+//        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1));
+        adapter = new CustomListAdapter(this, movieList);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view,
+                                                                    int position, long id) {
+                                                Intent intent = new Intent(NoBoringActionBarActivity.this, Youtube.class);
+                                                intent.putExtra("url", urlStrArray[position]);
+                                                NoBoringActionBarActivity.this.startActivity(intent);
+
+
+                                            }
+
+
+                                        }
+
+        );
+
+        if (isNetworkAvailable()) {
+
+
+            pDialog = new ProgressDialog(this);
+            // Showing progress dialog before making http request
+            pDialog.setMessage("Loading...");
+            pDialog.show();
+
+            // changing action bar color
+//		getActionBar().setBackgroundDrawable(
+//				new ColorDrawable(Color.parseColor("#1b1b1b")));
+
+            // Creating volley request obj
+
+
+            JsonArrayRequest movieReq = new JsonArrayRequest(url,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+//                            Log.d(TAG, response.toString());
+                            hidePDialog();
+
+                            // Parsing json
+                            urlStrArray = new String[response.length()];
+
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+
+                                    JSONObject obj = response.getJSONObject(i);
+                                    Movie movie = new Movie();
+                                    movie.setTitle(obj.getString("title"));
+                                    movie.setThumbnailUrl(obj.getString("image"));
+                                    movie.setTimeing(obj.getString("time"));
+                                    movie.setDate(obj.getString("date"));
+                                    //url capturing form server
+                                    urlStrArray[i] = obj.getString("url");
+
+                                    // Genre is json array
+                                    JSONArray genreArry = obj.getJSONArray("vs");
+                                    ArrayList<String> genre = new ArrayList<String>();
+                                    for (int j = 0; j < genreArry.length(); j++) {
+                                        genre.add((String) genreArry.get(j));
+                                    }
+                                    movie.setGenre(genre);
+
+                                    // adding movie to movies array
+                                    movieList.add(movie);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                            // notifying list adapter about data changes
+                            // so that it renders the list view with updated data
+                            adapter.notifyDataSetChanged();
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    hidePDialog();
+
+                }
+            });
+
+
+            // Adding request to request queue
+            AppController.getInstance().addToRequestQueue(movieReq);
+        } else {
+//            SnackBarHelperClass.snackBarWhiteMethod(relativeLayout, "No Internet Connection!").show();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        hidePDialog();
+    }
+
+    private void hidePDialog() {
+        if (pDialog != null) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -178,5 +298,19 @@ public class NoBoringActionBarActivity extends Activity {
         getTheme().resolveAttribute(android.R.attr.actionBarSize, mTypedValue, true);
         mActionBarHeight = TypedValue.complexToDimensionPixelSize(mTypedValue.data, getResources().getDisplayMetrics());
         return mActionBarHeight;
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 }
