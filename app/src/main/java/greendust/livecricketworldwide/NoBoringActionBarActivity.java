@@ -2,8 +2,10 @@ package greendust.livecricketworldwide;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
@@ -24,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
@@ -76,6 +79,22 @@ public class NoBoringActionBarActivity extends Activity {
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
         mMinHeaderTranslation = -mHeaderHeight + getActionBarHeight();
         setContentView(R.layout.activity_noboringactionbar);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-2523520660707375/4984910641");
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+                //finish the app when close instrial add colse
+                finish();
+
+
+            }
+        });
+
+        requestNewInterstitial();
 
         listView = (ListView) findViewById(R.id.list);
         mHeader = findViewById(R.id.header);
@@ -313,4 +332,38 @@ public class NoBoringActionBarActivity extends Activity {
 
         mInterstitialAd.loadAd(adRequest);
     }
-}
+
+
+    //Exit mode before showing instrialadd
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage("Do you want to Exit?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (isNetworkAvailable()) {
+
+                    //show interstitialad
+                    mInterstitialAd.isLoaded();
+                    mInterstitialAd.show();
+
+                }else{
+                    finish();
+                }
+
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //if user select "No", just cancel this dialog and continue with app
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    }
