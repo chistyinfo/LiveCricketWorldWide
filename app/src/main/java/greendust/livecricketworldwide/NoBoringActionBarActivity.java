@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -80,6 +81,9 @@ public class NoBoringActionBarActivity extends Activity {
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
         mMinHeaderTranslation = -mHeaderHeight + getActionBarHeight();
         setContentView(R.layout.activity_noboringactionbar);
+
+        //To Stop rotation screen
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         AdView mAdView = (AdView) findViewById(R.id.adView1);
         AdRequest adRequest = new AdRequest.Builder().build();
