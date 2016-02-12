@@ -80,6 +80,18 @@ public class NoBoringActionBarActivity extends Activity {
         mMinHeaderTranslation = -mHeaderHeight + getActionBarHeight();
         setContentView(R.layout.activity_noboringactionbar);
 
+        mHeader = findViewById(R.id.header);
+        mHeaderPicture = (KenBurnsView) findViewById(R.id.header_picture);
+        mHeaderPicture.setResourceIds(R.drawable.picture0, R.drawable.picture1);
+        mHeaderLogo = (ImageView) findViewById(R.id.header_logo);
+
+        mActionBarTitleColor = getResources().getColor(R.color.actionbar_title_color);
+
+        mSpannableString = new SpannableString(getString(R.string.noboringactionbar_title));
+        mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(mActionBarTitleColor);
+
+        setupActionBar();
+
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-2523520660707375/4984910641");
 
@@ -189,17 +201,7 @@ public class NoBoringActionBarActivity extends Activity {
 
 
 
-        mHeader = findViewById(R.id.header);
-        mHeaderPicture = (KenBurnsView) findViewById(R.id.header_picture);
-        mHeaderPicture.setResourceIds(R.drawable.picture0, R.drawable.picture1);
-        mHeaderLogo = (ImageView) findViewById(R.id.header_logo);
 
-        mActionBarTitleColor = getResources().getColor(R.color.actionbar_title_color);
-
-        mSpannableString = new SpannableString(getString(R.string.noboringactionbar_title));
-        mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(mActionBarTitleColor);
-
-        setupActionBar();
 //        setupListView();
 
 
@@ -304,7 +306,7 @@ public class NoBoringActionBarActivity extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setIcon(R.drawable.ic_transparent);
 
-        //getActionBarTitleView().setAlpha(0f);
+//        getActionBarTitleView().setAlpha(0f);
     }
 
     private ImageView getActionBarIconView() {
