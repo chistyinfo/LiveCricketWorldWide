@@ -96,6 +96,7 @@ public class NoBoringActionBarActivity extends Activity {
 
         requestNewInterstitial();
 
+        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.frmlayout);
         listView = (ListView) findViewById(R.id.list);
         mHeader = findViewById(R.id.header);
         mHeaderPicture = (KenBurnsView) findViewById(R.id.header_picture);
@@ -210,7 +211,7 @@ public class NoBoringActionBarActivity extends Activity {
             // Adding request to request queue
             AppController.getInstance().addToRequestQueue(movieReq);
         } else {
-//            SnackBarHelperClass.snackBarWhiteMethod(relativeLayout, "No Internet Connection!").show();
+            SnackBarHelperClass.snackBarWhiteMethod(frameLayout, "No Internet Connection!").show();
         }
     }
 
