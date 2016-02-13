@@ -126,6 +126,7 @@ public class NoBoringActionBarActivity extends Activity {
         setupActionBar();
 
         mPlaceHolderView = getLayoutInflater().inflate(R.layout.view_header_placeholder, listView, false);
+        //To hide the header image when listview scrwled
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
