@@ -17,7 +17,6 @@ import android.text.SpannableString;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -145,6 +144,17 @@ public class NoBoringActionBarActivity extends Activity {
                                             @Override
                                             public void onItemClick(AdapterView<?> parent, View view,
                                                                     int position, long id) {
+                                                int scrollY = getScrollY();
+                                                //sticky actionbar
+                                                mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
+                                                //header_logo --> actionbar icon
+                                                float ratio = clamp(mHeader.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
+                                                interpolate(mHeaderLogo, getActionBarIconView(), mSmoothInterpolator.getInterpolation(ratio));
+                                                //actionbar title alpha
+                                                //getActionBarTitleView().setAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
+                                                //---------------------------------
+                                                //better way thanks to @cyrilmottier
+                                                setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
                                                 Intent intent = new Intent(NoBoringActionBarActivity.this, Youtube.class);
                                                 intent.putExtra("url", urlStrArray[position]);
                                                 NoBoringActionBarActivity.this.startActivity(intent);
@@ -239,26 +249,26 @@ public class NoBoringActionBarActivity extends Activity {
             pDialog.dismiss();
             pDialog = null;
         }
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int scrollY = getScrollY();
-                //sticky actionbar
-                mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
-                //header_logo --> actionbar icon
-                float ratio = clamp(mHeader.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
-                interpolate(mHeaderLogo, getActionBarIconView(), mSmoothInterpolator.getInterpolation(ratio));
-                //actionbar title alpha
-                //getActionBarTitleView().setAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
-                //---------------------------------
-                //better way thanks to @cyrilmottier
-                setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
-            }
-        });
+//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                int scrollY = getScrollY();
+//                //sticky actionbar
+//                mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
+//                //header_logo --> actionbar icon
+//                float ratio = clamp(mHeader.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
+//                interpolate(mHeaderLogo, getActionBarIconView(), mSmoothInterpolator.getInterpolation(ratio));
+//                //actionbar title alpha
+//                //getActionBarTitleView().setAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
+//                //---------------------------------
+//                //better way thanks to @cyrilmottier
+//                setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
+//            }
+//        });
     }
 
     private void setTitleAlpha(float alpha) {
