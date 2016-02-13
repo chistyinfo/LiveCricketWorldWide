@@ -12,10 +12,12 @@ import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -83,12 +85,12 @@ public class NoBoringActionBarActivity extends Activity {
 
         //To Stop rotation screen
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        //Banner add
         AdView mAdView = (AdView) findViewById(R.id.adView1);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-
+        //Instrial add
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-2523520660707375/4984910641");
 
@@ -105,18 +107,10 @@ public class NoBoringActionBarActivity extends Activity {
 
         requestNewInterstitial();
 
-        //ineshialise for snackbar
+        //inishialise for snackbar
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.frmlayout);
 
-//        setupListView();
-//    }
 
-//    private void setupListView() {
-//        ArrayList<String> FAKES = new ArrayList<String>();
-//        for (int i = 0; i < 1000; i++) {
-//            FAKES.add("entry " + i);
-//        }
-        //keep listview here for better position of listview
         listView = (ListView) findViewById(R.id.list);
 
         mHeader = findViewById(R.id.header);
@@ -130,7 +124,28 @@ public class NoBoringActionBarActivity extends Activity {
         mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(mActionBarTitleColor);
 
         setupActionBar();
+
         mPlaceHolderView = getLayoutInflater().inflate(R.layout.view_header_placeholder, listView, false);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int scrollY = getScrollY();
+                //sticky actionbar
+                mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
+                //header_logo --> actionbar icon
+                float ratio = clamp(mHeader.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
+                interpolate(mHeaderLogo, getActionBarIconView(), mSmoothInterpolator.getInterpolation(ratio));
+                //actionbar title alpha
+                //getActionBarTitleView().setAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
+                //---------------------------------
+                //better way thanks to @cyrilmottier
+                setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
+            }
+        });
         //Help to show listview under header image
         listView.addHeaderView(mPlaceHolderView);
         adapter = new CustomListAdapter(this, movieList);
@@ -235,90 +250,19 @@ public class NoBoringActionBarActivity extends Activity {
             pDialog.dismiss();
             pDialog = null;
         }
-//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                int scrollY = getScrollY();
-//                //sticky actionbar
-//                mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
-//                //header_logo --> actionbar icon
-//                float ratio = clamp(mHeader.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
-//                interpolate(mHeaderLogo, getActionBarIconView(), mSmoothInterpolator.getInterpolation(ratio));
-//                //actionbar title alpha
-//                //getActionBarTitleView().setAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
-//                //---------------------------------
-//                //better way thanks to @cyrilmottier
-//                setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
-//            }
-//        });
+
     }
 
-//    private void setTitleAlpha(float alpha) {
-//        mAlphaForegroundColorSpan.setAlpha(alpha);
-//        mSpannableString.setSpan(mAlphaForegroundColorSpan, 0, mSpannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        getActionBar().setTitle(mSpannableString);
-//    }
-
-//    public static float clamp(float value, float min, float max) {
-//        return Math.max(min, Math.min(value, max));
-//    }
-
-//    private void interpolate(View view1, View view2, float interpolation) {
-//        getOnScreenRect(mRect1, view1);
-//        getOnScreenRect(mRect2, view2);
-
-//        float scaleX = 1.0F + interpolation * (mRect2.width() / mRect1.width() - 1.0F);
-//        float scaleY = 1.0F + interpolation * (mRect2.height() / mRect1.height() - 1.0F);
-//        float translationX = 0.5F * (interpolation * (mRect2.left + mRect2.right - mRect1.left - mRect1.right));
-//        float translationY = 0.5F * (interpolation * (mRect2.top + mRect2.bottom - mRect1.top - mRect1.bottom));
-//
-//        view1.setTranslationX(translationX);
-//        view1.setTranslationY(translationY - mHeader.getTranslationY());
-//        view1.setScaleX(scaleX);
-//        view1.setScaleY(scaleY);
-//    }
-
-//    private RectF getOnScreenRect(RectF rect, View view) {
-//        rect.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
-//        return rect;
-//    }
-
-//    public int getScrollY() {
-//        View c = listView.getChildAt(0);
-//        if (c == null) {
-//            return 0;
-//        }
-
-//        int firstVisiblePosition = listView.getFirstVisiblePosition();
-//        int top = c.getTop();
-//
-//        int headerHeight = 0;
-//        if (firstVisiblePosition >= 1) {
-//            headerHeight = mPlaceHolderView.getHeight();
-//        }
-//
-//        return -top + firstVisiblePosition * c.getHeight() + headerHeight;
-//    }
 
     private void setupActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setIcon(R.drawable.ic_transparent);
 
-        //getActionBarTitleView().setAlpha(0f);
+    }
+    private ImageView getActionBarIconView() {
+        return (ImageView) findViewById(android.R.id.home);
     }
 
-//    private ImageView getActionBarIconView() {
-//        return (ImageView) findViewById(android.R.id.home);
-//    }
-
-    /*private TextView getActionBarTitleView() {
-        int id = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
-        return (TextView) findViewById(id);
-    }*/
 
     public int getActionBarHeight() {
         if (mActionBarHeight != 0) {
@@ -359,7 +303,7 @@ public class NoBoringActionBarActivity extends Activity {
                     mInterstitialAd.isLoaded();
                     mInterstitialAd.show();
 
-                }else{
+                } else {
 
                     finish();
                 }
@@ -377,4 +321,54 @@ public class NoBoringActionBarActivity extends Activity {
         alert.show();
     }
 
+    private void setTitleAlpha(float alpha) {
+        mAlphaForegroundColorSpan.setAlpha(alpha);
+        mSpannableString.setSpan(mAlphaForegroundColorSpan, 0, mSpannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getActionBar().setTitle(mSpannableString);
     }
+
+    public static float clamp(float value, float min, float max) {
+        return Math.max(min, Math.min(value, max));
+    }
+
+    private void interpolate(View view1, View view2, float interpolation) {
+        getOnScreenRect(mRect1, view1);
+        getOnScreenRect(mRect2, view2);
+
+        float scaleX = 1.0F + interpolation * (mRect2.width() / mRect1.width() - 1.0F);
+        float scaleY = 1.0F + interpolation * (mRect2.height() / mRect1.height() - 1.0F);
+        float translationX = 0.5F * (interpolation * (mRect2.left + mRect2.right - mRect1.left - mRect1.right));
+        float translationY = 0.5F * (interpolation * (mRect2.top + mRect2.bottom - mRect1.top - mRect1.bottom));
+
+        view1.setTranslationX(translationX);
+        view1.setTranslationY(translationY - mHeader.getTranslationY());
+        view1.setScaleX(scaleX);
+        view1.setScaleY(scaleY);
+    }
+
+    private RectF getOnScreenRect(RectF rect, View view) {
+        rect.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+        return rect;
+    }
+
+    public int getScrollY() {
+        View c = listView.getChildAt(0);
+        if (c == null) {
+            return 0;
+        }
+
+        int firstVisiblePosition = listView.getFirstVisiblePosition();
+        int top = c.getTop();
+
+        int headerHeight = 0;
+        if (firstVisiblePosition >= 1) {
+            headerHeight = mPlaceHolderView.getHeight();
+        }
+
+        return -top + firstVisiblePosition * c.getHeight() + headerHeight;
+    }
+
+
+    }
+
+
