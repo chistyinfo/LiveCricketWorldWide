@@ -65,7 +65,7 @@ public class NoBoringActionBarActivity extends Activity {
     private TypedValue mTypedValue = new TypedValue();
 
     // Movies json url
-    private static final String url = "http://www.padmafire.com/chistyinfo/livefootball/movies.json";
+    private static final String url = "http://www.padmafire.com/chistyinfo/json/movies.json";
     private FrameLayout frameLayout;
     private ProgressDialog pDialog;
     private List<Movie> movieList = new ArrayList<Movie>();
@@ -73,6 +73,7 @@ public class NoBoringActionBarActivity extends Activity {
     private CustomListAdapter adapter;
     String[] urlStrArray;
     private InterstitialAd mInterstitialAd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class NoBoringActionBarActivity extends Activity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
+
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-2523520660707375/4984910641");
 
@@ -104,6 +106,7 @@ public class NoBoringActionBarActivity extends Activity {
         });
 
         requestNewInterstitial();
+
         //ineshialise for snackbar
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.frmlayout);
         listView = (ListView) findViewById(R.id.list);

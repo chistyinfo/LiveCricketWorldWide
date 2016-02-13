@@ -2,6 +2,7 @@ package greendust.livecricketworldwide.Youtube;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -20,6 +21,7 @@ public class Youtube extends YouTubeBaseActivity implements
 
     // YouTube player view
     private YouTubePlayerView youTubeView;
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,12 @@ public class Youtube extends YouTubeBaseActivity implements
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_youtube);
+
+//        AppInbox.startInbox(this, "SqIpX9zE2KBr4ZyXSGMjqlXZqm-x3GZsbYo0l5gepJo", "620939433634", null, null, null, "Live", "Cricket", "chistyinfo@gmail.com", Gender.MALE, 0);
+//
+//        linearLayout= (LinearLayout) findViewById(R.id.rzl);
+//        final InboxView inbox = new InboxView(this);
+//        linearLayout.addView(inbox);
 
         AdView mAdView = (AdView) findViewById(R.id.adView0);
         AdRequest adRequest = new AdRequest.Builder().build();
