@@ -112,6 +112,25 @@ public class NoBoringActionBarActivity extends Activity {
 
 
         listView = (ListView) findViewById(R.id.list);
+        adapter = new CustomListAdapter(this, movieList);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view,
+                                                                    int position, long id) {
+                                                Intent intent = new Intent(NoBoringActionBarActivity.this, Youtube.class);
+                                                intent.putExtra("url", urlStrArray[position]);
+                                                NoBoringActionBarActivity.this.startActivity(intent);
+
+
+                                            }
+
+
+                                        }
+
+        );
 
         mHeader = findViewById(R.id.header);
         mHeaderPicture = (KenBurnsView) findViewById(R.id.header_picture);
@@ -125,7 +144,12 @@ public class NoBoringActionBarActivity extends Activity {
 
         setupActionBar();
 
+
+
+
         mPlaceHolderView = getLayoutInflater().inflate(R.layout.view_header_placeholder, listView, false);
+
+
         //To hide the header image when listview scrwled
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -149,25 +173,7 @@ public class NoBoringActionBarActivity extends Activity {
         });
         //Help to show listview under header image
         listView.addHeaderView(mPlaceHolderView);
-        adapter = new CustomListAdapter(this, movieList);
-        listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                                            @Override
-                                            public void onItemClick(AdapterView<?> parent, View view,
-                                                                    int position, long id) {
-                                                Intent intent = new Intent(NoBoringActionBarActivity.this, Youtube.class);
-                                                intent.putExtra("url", urlStrArray[position]);
-                                                NoBoringActionBarActivity.this.startActivity(intent);
-
-
-                                            }
-
-
-                                        }
-
-        );
 
         if (isNetworkAvailable()) {
 
