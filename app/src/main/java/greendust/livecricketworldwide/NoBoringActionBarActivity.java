@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -109,7 +110,18 @@ public class NoBoringActionBarActivity extends Activity {
 
         //ineshialise for snackbar
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.frmlayout);
+
+//        setupListView();
+//    }
+
+//    private void setupListView() {
+//        ArrayList<String> FAKES = new ArrayList<String>();
+//        for (int i = 0; i < 1000; i++) {
+//            FAKES.add("entry " + i);
+//        }
+
         listView = (ListView) findViewById(R.id.list);
+
         mHeader = findViewById(R.id.header);
         mHeaderPicture = (KenBurnsView) findViewById(R.id.header_picture);
         mHeaderPicture.setResourceIds(R.drawable.picture0, R.drawable.picture1);
@@ -121,17 +133,10 @@ public class NoBoringActionBarActivity extends Activity {
         mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(mActionBarTitleColor);
 
         setupActionBar();
-//        setupListView();
-//    }
-
-//    private void setupListView() {
-//        ArrayList<String> FAKES = new ArrayList<String>();
-//        for (int i = 0; i < 1000; i++) {
-//            FAKES.add("entry " + i);
-//        }
+//        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1));
         mPlaceHolderView = getLayoutInflater().inflate(R.layout.view_header_placeholder, listView, false);
         listView.addHeaderView(mPlaceHolderView);
-//        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1));
+        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1));
         adapter = new CustomListAdapter(this, movieList);
         listView.setAdapter(adapter);
 
@@ -160,11 +165,7 @@ public class NoBoringActionBarActivity extends Activity {
             pDialog.setMessage("Loading...");
             pDialog.show();
 
-            // changing action bar color
-//		getActionBar().setBackgroundDrawable(
-//				new ColorDrawable(Color.parseColor("#1b1b1b")));
 
-            // Creating volley request obj
 
 
             JsonArrayRequest movieReq = new JsonArrayRequest(url,
