@@ -8,6 +8,6 @@
     <string name="title_activity_maps">Map</string>
 
     <string name="noboringactionbar_title">Live Cricket</string>
-    <string name="speed">For better experience  3G network is essential </string>
+    <string name="speed">For better experience  3G network is essential. </string>
     <string name="fullscreen">Press the right button for fullscreen mode</string>
 </resources>

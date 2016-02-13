@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_marginRight="8dp"
     android:layout_marginLeft="8dp"
     android:layout_marginTop="5dp"
@@ -12,9 +11,11 @@
     android:background="@drawable/login_trave2"
     tools:context="greendust.livecricketworldwide.Youtube.Youtube">
 
+
     <FrameLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="@dimen/youtube_height">
 
         <com.google.android.youtube.player.YouTubePlayerView
@@ -23,47 +24,31 @@
         android:layout_height="match_parent">
         </com.google.android.youtube.player.YouTubePlayerView>
 
+
+
     </FrameLayout>
 
 
 
 
-
-
-
-
-        <greendust.livecricketworldwide.font.FontelloTextView
-            android:background="@drawable/login_travel_transparent_background"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="20dp"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:textColor="#0b0a0b"
-            android:layout_gravity="center"
-            android:text="@string/speed"
-            android:clickable="true"
-            android:elevation="5dp"
-            />
-
-
-
-
-
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView0"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-2523520660707375/5393757849">
-    </com.google.android.gms.ads.AdView>
+        android:layout_gravity="bottom"
+        android:background="@color/wallet_highlighted_text_holo_dark">
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-2523520660707375/5393757849"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true">
+        </com.google.android.gms.ads.AdView>
+
+    </FrameLayout>
 
 
 
-
-
-</LinearLayout>
+</FrameLayout>
