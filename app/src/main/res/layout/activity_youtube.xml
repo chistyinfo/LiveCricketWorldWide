@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    android:layout_marginRight="8dp"
-    android:layout_marginLeft="8dp"
+    android:orientation="vertical"
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="5dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
-    android:background="@drawable/login_trave2"
+    android:weightSum="4"
     tools:context="greendust.livecricketworldwide.Youtube.Youtube">
 
 
     <FrameLayout
         android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="@dimen/youtube_height">
+        android:layout_marginTop="5dp"
+        android:layout_weight="2"
+        android:layout_height="@dimen/youtube_height"
+        android:layout_width="match_parent">
 
         <com.google.android.youtube.player.YouTubePlayerView
-        android:id="@+id/youtube_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            android:id="@+id/youtube_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         </com.google.android.youtube.player.YouTubePlayerView>
 
 
@@ -29,26 +32,50 @@
     </FrameLayout>
 
 
-
-
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/rzlayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/wallet_highlighted_text_holo_dark">
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-2523520660707375/5393757849"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true">
-        </com.google.android.gms.ads.AdView>
-
-    </FrameLayout>
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:background="@color/wallet_highlighted_text_holo_dark"
+        android:layout_marginBottom="10dp">
 
 
+        <greendust.livecricketworldwide.buttoneffects.MaterialRippleLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-</FrameLayout>
+        <ImageButton
+            android:id="@+id/full"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:elevation="5dp"
+            android:background="@drawable/fullscreen"/>
+        </greendust.livecricketworldwide.buttoneffects.MaterialRippleLayout>
+
+
+        <greendust.livecricketworldwide.buttoneffects.MaterialRippleLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/home"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:elevation="5dp"
+            android:background="@drawable/home"/>
+        </greendust.livecricketworldwide.buttoneffects.MaterialRippleLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

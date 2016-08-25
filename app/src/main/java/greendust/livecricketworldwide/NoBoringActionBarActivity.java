@@ -27,9 +27,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
 import org.json.JSONArray;
@@ -73,6 +70,8 @@ public class NoBoringActionBarActivity extends Activity {
     private CustomListAdapter adapter;
     String[] urlStrArray;
     private InterstitialAd mInterstitialAd;
+    private boolean backPressedToExitOnce;
+
 
 
     @Override
@@ -81,37 +80,39 @@ public class NoBoringActionBarActivity extends Activity {
         mSmoothInterpolator = new AccelerateDecelerateInterpolator();
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
         mMinHeaderTranslation = -mHeaderHeight + getActionBarHeight();
+
         setContentView(R.layout.activity_noboringactionbar);
 
         //To Stop rotation screen
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //Banner add
-        AdView mAdView = (AdView) findViewById(R.id.adView1);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
-        //Instrial add
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-2523520660707375/4984910641");
-
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                requestNewInterstitial();
-                //finish the app when close instrial add colse
-                finish();
-
-
-            }
-        });
-
-        requestNewInterstitial();
-
-        //inishialise for snackbar
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.frmlayout);
 
 
         listView = (ListView) findViewById(R.id.list);
+        mHeader = findViewById(R.id.header);
+        mHeaderPicture = (KenBurnsView) findViewById(R.id.header_picture);
+        mHeaderPicture.setResourceIds(R.drawable.picture0, R.drawable.picture1);
+        mHeaderLogo = (ImageView) findViewById(R.id.header_logo);
+
+        mActionBarTitleColor = getResources().getColor(R.color.actionbar_title_color);
+
+        mSpannableString = new SpannableString(getString(R.string.noboringactionbar_title));
+        mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(mActionBarTitleColor);
+
+        setupActionBar();
+        setupListView();
+
+    }
+    //Caling up list view
+    private void setupListView() {
+
+        mPlaceHolderView = getLayoutInflater().inflate(R.layout.view_header_placeholder, listView, false);
+        listView.addHeaderView(mPlaceHolderView);
+
+        //inishialise for snackbar. Have to set before adapter
+        final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frmlayout);
+
+        //set adapter
         adapter = new CustomListAdapter(this, movieList);
         listView.setAdapter(adapter);
 
@@ -132,49 +133,6 @@ public class NoBoringActionBarActivity extends Activity {
 
         );
 
-        mHeader = findViewById(R.id.header);
-        mHeaderPicture = (KenBurnsView) findViewById(R.id.header_picture);
-        mHeaderPicture.setResourceIds(R.drawable.picture0, R.drawable.picture1);
-        mHeaderLogo = (ImageView) findViewById(R.id.header_logo);
-
-        mActionBarTitleColor = getResources().getColor(R.color.actionbar_title_color);
-
-        mSpannableString = new SpannableString(getString(R.string.noboringactionbar_title));
-        mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(mActionBarTitleColor);
-
-        setupActionBar();
-
-
-
-
-        mPlaceHolderView = getLayoutInflater().inflate(R.layout.view_header_placeholder, listView, false);
-
-
-        //To hide the header image when listview scrwled
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int scrollY = getScrollY();
-                //sticky actionbar
-                mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
-                //header_logo --> actionbar icon
-                float ratio = clamp(mHeader.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
-                interpolate(mHeaderLogo, getActionBarIconView(), mSmoothInterpolator.getInterpolation(ratio));
-                //actionbar title alpha
-                //getActionBarTitleView().setAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
-                //---------------------------------
-                //better way thanks to @cyrilmottier
-                setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
-            }
-        });
-        //Help to show listview under header image
-        listView.addHeaderView(mPlaceHolderView);
-
-
         if (isNetworkAvailable()) {
 
 
@@ -185,6 +143,7 @@ public class NoBoringActionBarActivity extends Activity {
 
 
 
+            //Call jason class
 
             JsonArrayRequest movieReq = new JsonArrayRequest(url,
                     new Response.Listener<JSONArray>() {
@@ -234,6 +193,7 @@ public class NoBoringActionBarActivity extends Activity {
                 public void onErrorResponse(VolleyError error) {
                     VolleyLog.d(TAG, "Error: " + error.getMessage());
                     hidePDialog();
+                    SnackBarHelperClass.snackBarGreenMethod(frameLayout, "Server is busy now! \nPlz try after few moments.").show();
 
                 }
             });
@@ -258,75 +218,40 @@ public class NoBoringActionBarActivity extends Activity {
             pDialog = null;
         }
 
-    }
 
 
-    private void setupActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setIcon(R.drawable.ic_transparent);
+    //Joson code ending mark//
 
-    }
-    private ImageView getActionBarIconView() {
-        return (ImageView) findViewById(android.R.id.home);
-    }
-
-
-    public int getActionBarHeight() {
-        if (mActionBarHeight != 0) {
-            return mActionBarHeight;
-        }
-        getTheme().resolveAttribute(android.R.attr.actionBarSize, mTypedValue, true);
-        mActionBarHeight = TypedValue.complexToDimensionPixelSize(mTypedValue.data, getResources().getDisplayMetrics());
-        return mActionBarHeight;
-    }
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID")
-                .build();
-
-        mInterstitialAd.loadAd(adRequest);
-    }
-
-
-    //Exit mode before showing instrialadd
-    @Override
-    public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false);
-        builder.setMessage("Do you want to Exit?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        //parlex code
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (isNetworkAvailable()) {
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
 
-                    //show interstitialad
-                    mInterstitialAd.isLoaded();
-                    mInterstitialAd.show();
-
-                } else {
-
-                    finish();
-                }
-
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int scrollY = getScrollY();
+                //sticky actionbar
+                mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
+                //header_logo --> actionbar icon
+                float ratio = clamp(mHeader.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
+                interpolate(mHeaderLogo, getActionBarIconView(), mSmoothInterpolator.getInterpolation(ratio));
+                //actionbar title alpha
+                //getActionBarTitleView().setAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
+                //---------------------------------
+                //better way thanks to @cyrilmottier
+                setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //if user select "No", just cancel this dialog and continue with app
-                dialog.cancel();
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();
+
     }
+
+        //endig parlex code//
+
+
+
+
+
 
     private void setTitleAlpha(float alpha) {
         mAlphaForegroundColorSpan.setAlpha(alpha);
@@ -353,6 +278,8 @@ public class NoBoringActionBarActivity extends Activity {
         view1.setScaleY(scaleY);
     }
 
+
+
     private RectF getOnScreenRect(RectF rect, View view) {
         rect.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
         return rect;
@@ -375,7 +302,65 @@ public class NoBoringActionBarActivity extends Activity {
         return -top + firstVisiblePosition * c.getHeight() + headerHeight;
     }
 
+    private void setupActionBar() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setIcon(R.drawable.ic_transparent);
 
+        //getActionBarTitleView().setAlpha(0f);
+    }
+
+    private ImageView getActionBarIconView() {
+        return (ImageView) findViewById(android.R.id.home);
+    }
+
+    /*private TextView getActionBarTitleView() {
+        int id = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+        return (TextView) findViewById(id);
+    }*/
+
+    public int getActionBarHeight() {
+        if (mActionBarHeight != 0) {
+            return mActionBarHeight;
+        }
+        getTheme().resolveAttribute(android.R.attr.actionBarSize, mTypedValue, true);
+        mActionBarHeight = TypedValue.complexToDimensionPixelSize(mTypedValue.data, getResources().getDisplayMetrics());
+        return mActionBarHeight;
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 
+    //Exit mode before showing instrialadd
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage("Do you want to Exit?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                    finish();
+
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //if user select "No", just cancel this dialog and continue with app
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
+
+
+
+}

@@ -17,6 +17,7 @@ public class SnackBarHelperClass {
         // Changing action button text color
         View sbView = snackbar.getView();
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextSize(25);
         textView.setTextColor(Color.RED);
 
         return snackbar;
@@ -27,6 +28,7 @@ public class SnackBarHelperClass {
         // Changing action button text color
         View sbView = snackbar.getView();
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextSize(25);
         textView.setTextColor(Color.GREEN);
 
         return snackbar;
