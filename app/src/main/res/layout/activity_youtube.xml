@@ -45,13 +45,14 @@
     android:id="@+id/full"
     android:layout_width="48dp"
     android:layout_height="48dp"
-    android:layout_margin="16dp"
+    android:layout_margin="16dp" android:elevation="8dp"
     android:clickable="true"
     android:background="@color/material_orange_500"
     android:src="@drawable/ic_fullscreen"
     app:layout_anchor="@id/viewA"
     app:layout_anchorGravity="bottom|right|end"
-        android:contentDescription="" />
+        android:contentDescription=""
+        android:scaleType="fitXY" />
 
 
 </android.support.design.widget.CoordinatorLayout>
