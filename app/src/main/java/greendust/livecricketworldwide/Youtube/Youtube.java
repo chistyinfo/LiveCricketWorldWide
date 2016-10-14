@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -30,7 +31,8 @@ public class Youtube extends YouTubeBaseActivity implements
     private YouTubePlayerView youTubeView;
     private LinearLayout rlLayout;
     private YouTubePlayer youTubePlayer;
-    private ImageButton home,full;
+    //private ImageButton home,full;
+    private FloatingActionButton home;
     private InterstitialAd mInterstitialAd;
 
     @Override
@@ -55,7 +57,7 @@ public class Youtube extends YouTubeBaseActivity implements
 
         //Fullscreen mode
 
-        ImageButton full = (ImageButton) findViewById(R.id.full);
+        FloatingActionButton full = (FloatingActionButton) findViewById(R.id.full);
 
         full.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,19 +71,19 @@ public class Youtube extends YouTubeBaseActivity implements
             }
         });
                 // For back to previous activity
-                ImageButton home = (ImageButton) findViewById(R.id.home);
-
-                home.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Intent intent = new Intent(Youtube.this, NoBoringActionBarActivity.class);
-                        Youtube.this.startActivity(intent);
-                        finish();
-
-
-                    }
-                });
+//                ImageButton home = (ImageButton) findViewById(R.id.home);
+//
+//                home.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                        Intent intent = new Intent(Youtube.this, NoBoringActionBarActivity.class);
+//                        Youtube.this.startActivity(intent);
+//                        finish();
+//
+//
+//                    }
+//                });
 
 
 
