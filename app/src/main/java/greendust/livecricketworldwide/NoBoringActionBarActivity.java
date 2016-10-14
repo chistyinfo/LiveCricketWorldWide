@@ -27,7 +27,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.google.android.gms.ads.InterstitialAd;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,14 +61,14 @@ public class NoBoringActionBarActivity extends Activity {
     private TypedValue mTypedValue = new TypedValue();
 
     // Movies json url
-    private static final String url = "";
+    private static final String url = "https://api.myjson.com/bins/4nhae";
     private FrameLayout frameLayout;
     private ProgressDialog pDialog;
     private List<Movie> movieList = new ArrayList<Movie>();
     private ListView listView;
     private CustomListAdapter adapter;
     String[] urlStrArray;
-    private InterstitialAd mInterstitialAd;
+//    private InterstitialAd mInterstitialAd;
     private boolean backPressedToExitOnce;
 
 

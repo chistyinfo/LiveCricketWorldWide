@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -31,9 +28,9 @@ public class Youtube extends YouTubeBaseActivity implements
     private YouTubePlayerView youTubeView;
     private LinearLayout rlLayout;
     private YouTubePlayer youTubePlayer;
-    //private ImageButton home,full;
-    private FloatingActionButton home;
-    private InterstitialAd mInterstitialAd;
+    private ImageButton home,full;
+
+//    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,27 +40,12 @@ public class Youtube extends YouTubeBaseActivity implements
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
              setContentView(R.layout.activity_youtube);
 
-
-//        //Rzlts Inbex
-//        AppInbox.startInbox(this, "SqIpX9zE2KBr4ZyXSGMjqlXZqm-x3GZsbYo0l5gepJo", "620939433634", null, null, null, "Mainuddin", "Chisty", "chistyinfo@gmail.com", Gender.MALE, 0);
-//
-//        LinearLayout rlLayout = (LinearLayout) this.findViewById(R.id.rzlayout);
-//        final InboxView inbox = new InboxView(this);
-//        rlLayout.addView(inbox);
-
-
-
-
-
-        //Fullscreen mode
-
-        FloatingActionButton full = (FloatingActionButton) findViewById(R.id.full);
+        ImageButton full = (ImageButton) findViewById(R.id.full);
 
         full.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                requestNewInterstitial();
                 youTubePlayer.setFullscreen(true);
 
 
@@ -84,11 +66,6 @@ public class Youtube extends YouTubeBaseActivity implements
 //
 //                    }
 //                });
-
-
-
-
-
 
 
                 youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
@@ -141,13 +118,13 @@ public class Youtube extends YouTubeBaseActivity implements
 
             }
 
-    private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID")
-                .build();
-
-                mInterstitialAd.loadAd(adRequest);
-                    }
+//    private void requestNewInterstitial() {
+//        AdRequest adRequest = new AdRequest.Builder()
+//                .addTestDevice("SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID")
+//                .build();
+//
+//                mInterstitialAd.loadAd(adRequest);
+//                    }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager

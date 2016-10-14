@@ -26,8 +26,6 @@
             </com.google.android.youtube.player.YouTubePlayerView>
 
 
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -38,70 +36,22 @@
             android:background="@android:color/holo_orange_light"
             android:orientation="horizontal"/>
 
-    <!--<com.google.android.youtube.player.YouTubePlayerView-->
-    <!--android:id="@+id/youtube_view"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="889dp">-->
-    <!--</com.google.android.youtube.player.YouTubePlayerView>-->
+
 
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/full"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:clickable="true"
-        android:background="@android:color/holo_orange_dark"
-        android:src="@drawable/fullscreen"
-        app:layout_anchor="@id/viewA"
-        app:layout_anchorGravity="bottom|right|end"/>
-   <!---->
-    <!--<LinearLayout-->
-        <!--android:id="@+id/rzlayout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="70dp"-->
-        <!--android:orientation="vertical"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="@color/wallet_highlighted_text_holo_dark"-->
-        <!--android:layout_marginBottom="10dp">-->
-
-
-        <!--<greendust.livecricketworldwide.buttoneffects.MaterialRippleLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content">-->
-
-        <!--<ImageButton-->
-            <!--android:id="@+id/full"-->
-            <!--android:layout_width="70dp"-->
-            <!--android:layout_height="70dp"-->
-            <!--android:layout_marginLeft="3dp"-->
-            <!--android:layout_marginRight="3dp"-->
-            <!--android:elevation="5dp"-->
-            <!--android:background="@drawable/fullscreen"/>-->
-        <!--</greendust.livecricketworldwide.buttoneffects.MaterialRippleLayout>-->
-
-
-        <!--<greendust.livecricketworldwide.buttoneffects.MaterialRippleLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content">-->
-        <!--<ImageButton-->
-            <!--android:id="@+id/home"-->
-            <!--android:layout_width="70dp"-->
-            <!--android:layout_height="70dp"-->
-            <!--android:layout_marginLeft="3dp"-->
-            <!--android:layout_marginRight="3dp"-->
-            <!--android:elevation="5dp"-->
-            <!--android:background="@drawable/home"/>-->
-        <!--</greendust.livecricketworldwide.buttoneffects.MaterialRippleLayout>-->
-
-
-
-
-
-    <!--</LinearLayout>-->
+    <ImageButton
+    android:id="@+id/full"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_margin="16dp"
+    android:clickable="true"
+    android:background="@color/material_orange_500"
+    android:src="@drawable/ic_fullscreen"
+    app:layout_anchor="@id/viewA"
+    app:layout_anchorGravity="bottom|right|end"
+        android:contentDescription="" />
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -17,6 +17,7 @@
     <color name="material_lime_500">#cddc37</color>
     <color name="material_green_500">#4cae4e</color>
     <color name="material_purple_500">#a90aaf</color>
+    <color name="material_orange_500">#FF6F1C</color>
 
     <color name="actionbar_title_color">@android:color/white</color>
 
